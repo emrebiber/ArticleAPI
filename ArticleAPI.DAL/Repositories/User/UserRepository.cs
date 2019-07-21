@@ -35,7 +35,7 @@ namespace ArticleAPI.DAL.Repositories.User
                     {
                         FullName = user.FullName,
                         Email = user.Email,
-                        Pwd = user.Pwd,
+                        Password = user.Password,
                         CreatedDate = user.CreatedDate,
                         IsActive = user.IsActive,
                         IsDeleted = user.IsDeleted,

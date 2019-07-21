@@ -7,7 +7,7 @@ namespace ArticleAPI.DAL.Models
         public int UserId { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-        public string Pwd { get; set; }
+        public string Password { get; set; }
         public string ActivationGuid { get; set; }
         public string Salt { get; set; }
         public DateTime CreatedDate { get; set; }

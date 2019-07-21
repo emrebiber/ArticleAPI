@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ArticleAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ArticlesController : ControllerBase
