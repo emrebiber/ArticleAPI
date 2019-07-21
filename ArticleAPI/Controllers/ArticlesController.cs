@@ -9,11 +9,11 @@ namespace ArticleAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ArticleController : ControllerBase
+    public class ArticlesController : ControllerBase
     {
         private readonly IArticleRepository _articleRepository;
 
-        public ArticleController(IArticleRepository articleRepository)
+        public ArticlesController(IArticleRepository articleRepository)
         {
             _articleRepository = articleRepository;
         }
