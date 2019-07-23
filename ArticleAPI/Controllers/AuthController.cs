@@ -7,7 +7,6 @@ using ArticleAPI.DAL.Models;
 using ArticleAPI.DAL.Repositories.User;
 using ArticleAPI.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 

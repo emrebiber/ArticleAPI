@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using ArticleAPI.DAL.Models;
 using ArticleAPI.DAL.Repositories.Article;
 using Microsoft.AspNetCore.Authorization;
