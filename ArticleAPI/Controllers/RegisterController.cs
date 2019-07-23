@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Transactions;
 using ArticleAPI.DAL.Models;
 using ArticleAPI.DAL.Repositories.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic.CompilerServices;
+using Microsoft.Extensions.Configuration;
 
 namespace ArticleAPI.Controllers
 {
@@ -16,10 +12,15 @@ namespace ArticleAPI.Controllers
     public class RegisterController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
+        private readonly Logger.Logger _logger;
 
-        public RegisterController(IUserRepository userRepository)
+        public RegisterController(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
+            _configuration = configuration;
+            _logger = new Logger.Logger($"{_configuration.GetSection("Logging").GetSection("LogPath").Value}",
+                Convert.ToInt32(_configuration.GetSection("Logging").GetSection("LogLevel").Value));
         }
 
         [HttpPost("RegisterUser")]
@@ -39,15 +40,15 @@ namespace ArticleAPI.Controllers
                     user.ActivationGuid = Guid.NewGuid().ToString();
 
                     _userRepository.AddUser(user);
-                    var toList = new List<string> {user.Email};
 
                     scope.Complete();
                 }
 
-                return Ok(new { result = true });
+                return Ok(new { result = true, message =  "Yeni user eklendi." });
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.ToString(), Logger.LogType.Error);
                 return Ok(new { result = false, message = ex.Message });
             }
         }

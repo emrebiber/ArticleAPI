@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using ArticleAPI.DAL.Models;
 using ArticleAPI.DAL.Repositories.Article;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace ArticleAPI.Controllers
 {
@@ -13,10 +15,15 @@ namespace ArticleAPI.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly IArticleRepository _articleRepository;
+        private readonly IConfiguration _configuration;
+        private readonly Logger.Logger _logger;
 
-        public ArticlesController(IArticleRepository articleRepository)
+        public ArticlesController(IArticleRepository articleRepository, IConfiguration configuration)
         {
             _articleRepository = articleRepository;
+            _configuration = configuration;
+            _logger = new Logger.Logger($"{_configuration.GetSection("Logging").GetSection("LogPath").Value}",
+                Convert.ToInt32(_configuration.GetSection("Logging").GetSection("LogLevel").Value));
         }
 
         [HttpGet("GetArticles")]
@@ -26,10 +33,13 @@ namespace ArticleAPI.Controllers
             {
                 IEnumerable<Article> articles = _articleRepository.GetAllArticles();
 
+                _logger.Log("bla bla bla", Logger.LogType.Info);
+
                 return Ok(new { result = true, articles = articles });
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.ToString(), Logger.LogType.Error);
                 //TODO Do some kind of logging here... Log in db or text file??
                 return Ok(new { result = false, message = ex.Message });
             }
@@ -46,6 +56,7 @@ namespace ArticleAPI.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.ToString(), Logger.LogType.Error);
                 //TODO Do some kind of logging here... Log in db or text file??
                 return Ok(new { result = false, message = ex.Message });
             }
@@ -62,6 +73,7 @@ namespace ArticleAPI.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.ToString(), Logger.LogType.Error);
                 //TODO Do some kind of logging here... Log in db or text file??
                 return Ok(new { result = false, message = ex.Message });
             }
@@ -84,6 +96,7 @@ namespace ArticleAPI.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.ToString(), Logger.LogType.Error);
                 //TODO Do some kind of logging here... Log in db or text file??
                 return Ok(new { result = false, message = ex.Message });
             }
@@ -100,6 +113,7 @@ namespace ArticleAPI.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.ToString(), Logger.LogType.Error);
                 //TODO Do some kind of logging here... Log in db or text file??
                 return Ok(new { result = false, message = ex.Message });
             }

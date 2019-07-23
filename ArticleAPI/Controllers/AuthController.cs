@@ -27,14 +27,14 @@ namespace ArticleAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public IActionResult Login([FromBody]LoginModel user)
+        public IActionResult Login([FromBody] LoginModel user)
         {
             if (user == null)
             {
                 return BadRequest("Invalid client request");
             }
             var usr = IsValidUserAndPassword(user.Username, user.Password);
-            // if (user.UserName == "johndoe" && user.Password == "def@123")
+           
             if (usr != null)
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
