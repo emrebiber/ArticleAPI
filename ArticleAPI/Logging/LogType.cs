@@ -1,4 +1,4 @@
-﻿namespace ArticleAPI.Logger
+﻿namespace ArticleAPI.Logging
 {
     public enum LogType
     {

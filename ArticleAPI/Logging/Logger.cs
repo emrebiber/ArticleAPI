@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ArticleAPI.Logger
+namespace ArticleAPI.Logging
 {
     public class Logger
     {

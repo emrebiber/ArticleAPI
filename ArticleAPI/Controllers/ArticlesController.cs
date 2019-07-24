@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ArticleAPI.DAL.Models;
 using ArticleAPI.DAL.Repositories.Article;
+using ArticleAPI.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
 namespace ArticleAPI.Controllers
@@ -15,13 +18,15 @@ namespace ArticleAPI.Controllers
     {
         private readonly IArticleRepository _articleRepository;
         private readonly IConfiguration _configuration;
-        private readonly Logger.Logger _logger;
+        private readonly IMemoryCache _cache;
+        private readonly Logger _logger;
 
-        public ArticlesController(IArticleRepository articleRepository, IConfiguration configuration)
+        public ArticlesController(IArticleRepository articleRepository, IConfiguration configuration, IMemoryCache cache)
         {
             _articleRepository = articleRepository;
             _configuration = configuration;
-            _logger = new Logger.Logger($"{_configuration.GetSection("Logging").GetSection("LogPath").Value}",
+            _cache = cache;
+            _logger = new Logger($"{_configuration.GetSection("Logging").GetSection("LogPath").Value}",
                 Convert.ToInt32(_configuration.GetSection("Logging").GetSection("LogLevel").Value));
         }
 
@@ -30,16 +35,21 @@ namespace ArticleAPI.Controllers
         {
             try
             {
-                IEnumerable<Article> articles = _articleRepository.GetAllArticles();
+                if (!_cache.TryGetValue("articles", out List<Article> articles))
+                {
+                    if (articles == null)
+                    {
+                        articles = _articleRepository.GetAllArticles().ToList();
+                    }
 
-                _logger.Log("bla bla bla", Logger.LogType.Info);
+                    _cache.Set("articles", articles);
+                }
 
                 return Ok(new { result = true, articles = articles });
             }
             catch (Exception ex)
             {
-                _logger.Log(ex.ToString(), Logger.LogType.Error);
-                //TODO Do some kind of logging here... Log in db or text file??
+                _logger.Log(ex.ToString(), LogType.Error);
                 return Ok(new { result = false, message = ex.Message });
             }
         }
@@ -55,8 +65,7 @@ namespace ArticleAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Log(ex.ToString(), Logger.LogType.Error);
-                //TODO Do some kind of logging here... Log in db or text file??
+                _logger.Log(ex.ToString(), LogType.Error);
                 return Ok(new { result = false, message = ex.Message });
             }
         }
@@ -72,8 +81,7 @@ namespace ArticleAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Log(ex.ToString(), Logger.LogType.Error);
-                //TODO Do some kind of logging here... Log in db or text file??
+                _logger.Log(ex.ToString(), LogType.Error);
                 return Ok(new { result = false, message = ex.Message });
             }
         }
@@ -91,12 +99,10 @@ namespace ArticleAPI.Controllers
                 _articleRepository.UpdateArticle(existingArticle);
 
                 return Ok(new { result = true, message = "Makale guncellendi." });
-
             }
             catch (Exception ex)
             {
-                _logger.Log(ex.ToString(), Logger.LogType.Error);
-                //TODO Do some kind of logging here... Log in db or text file??
+                _logger.Log(ex.ToString(), LogType.Error);
                 return Ok(new { result = false, message = ex.Message });
             }
         }
@@ -112,7 +118,7 @@ namespace ArticleAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Log(ex.ToString(), Logger.LogType.Error);
+                _logger.Log(ex.ToString(), LogType.Error);
                 //TODO Do some kind of logging here... Log in db or text file??
                 return Ok(new { result = false, message = ex.Message });
             }

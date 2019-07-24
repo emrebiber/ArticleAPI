@@ -2,6 +2,7 @@
 using System.Transactions;
 using ArticleAPI.DAL.Models;
 using ArticleAPI.DAL.Repositories.User;
+using ArticleAPI.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -13,13 +14,13 @@ namespace ArticleAPI.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
-        private readonly Logger.Logger _logger;
+        private readonly Logging.Logger _logger;
 
         public RegisterController(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _configuration = configuration;
-            _logger = new Logger.Logger($"{_configuration.GetSection("Logging").GetSection("LogPath").Value}",
+            _logger = new Logging.Logger($"{_configuration.GetSection("Logging").GetSection("LogPath").Value}",
                 Convert.ToInt32(_configuration.GetSection("Logging").GetSection("LogLevel").Value));
         }
 
@@ -48,7 +49,7 @@ namespace ArticleAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Log(ex.ToString(), Logger.LogType.Error);
+                _logger.Log(ex.ToString(), LogType.Error);
                 return Ok(new { result = false, message = ex.Message });
             }
         }
