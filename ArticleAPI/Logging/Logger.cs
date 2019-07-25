@@ -21,7 +21,7 @@ namespace ArticleAPI.Logging
             {
                 if ((int)logType <= this.Level)
                 {
-                    var text = "-- Başlangıç " + System.DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + 
+                    var text = "-- Baslangic " + System.DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + 
                                " --" + Environment.NewLine + logType +": "+ txt + Environment.NewLine + 
                                "-- Son --" + Environment.NewLine;
 

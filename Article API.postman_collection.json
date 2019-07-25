@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "e735f5d2-fffe-4d4c-bde5-d0c127411802",
+		"name": "Article API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RegisterUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fullName\": \"John Doe\",\n\t\"email\": \"john.doe@outlook.com\",\n\t\"password\": \"123456\",\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44359/api/register/registeruser",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"api",
+						"register",
+						"registeruser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetToken",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"emrebiber@gmail.com\",\n\t\"password\": \"123456\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44359/api/auth/Login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"api",
+						"auth",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetArticles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjM5MTA2MDksImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDQzNTkiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQ0MzU5In0.cpGdxjS3z7OKby5n_PwZ69D9Z0argFdPraMZuBUpaaY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:44359/api/articles/GetArticles",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"api",
+						"articles",
+						"GetArticles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetArticle",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:44359/api/articles/GetArticle/2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"api",
+						"articles",
+						"GetArticle",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddArticle",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjM3NDQwNjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDQzNTkiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQ0MzU5In0.UIROgev0cJFVLHIumY_U6ejrs6dj7nFsbzNhVaIAOWM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"article 4\",\r\n  \"content\": \"this is a test\"\r\n \r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44359/api/articles/AddArticle",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"api",
+						"articles",
+						"AddArticle"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateArticle",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"articleId\": 2,\n    \"name\": \"Yeni Makale\",\n    \"content\": \"yeni makalemizde content degisti\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44359/api/articles/UpdateArticle",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"api",
+						"articles",
+						"UpdateArticle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteArticle",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44359/api/articles/DeleteArticle/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44359",
+					"path": [
+						"api",
+						"articles",
+						"DeleteArticle",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
